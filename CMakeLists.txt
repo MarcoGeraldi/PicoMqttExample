@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(mqttExample_C mqttExample_C.c mqttClient.c IoT_device.c utils/mkjson.c)
+add_executable(mqttExample_C mqttExample_C.c mqttClient.c IoT_device.c utils/parson/parson.c)
 
 pico_set_program_name(mqttExample_C "mqttExample_C")
 pico_set_program_version(mqttExample_C "0.1")

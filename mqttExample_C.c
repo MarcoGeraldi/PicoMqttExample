@@ -26,15 +26,15 @@ int main()
 
         mqtt_init();
 
-        //IoT_device_config_pub();
+        IoT_device_config_pub();
     }
 
     while (true) {
         
         /* ----------------------- Update Status of the Device ---------------------- */
 
-        mqtt_example_publish(mqtt->mqtt_client_inst, mqtt);
-        
+        //mqtt_example_publish(mqtt->mqtt_client_inst, mqtt);
+        IoT_device_config_pub(mqtt->mqtt_client_inst, mqtt); 
         /* --------------------------- Toggle on-board LED -------------------------- */
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, !cyw43_arch_gpio_get(CYW43_WL_GPIO_LED_PIN));
         sleep_ms(1000);
