@@ -26,7 +26,7 @@ int main()
 
         mqtt_init();
 
-        IoT_device_config_pub();
+        IoT_device_config_pub(mqtt->mqtt_client_inst, mqtt);
     }
 
     while (true) {

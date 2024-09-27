@@ -38,7 +38,7 @@
 /*                                  Functions                                 */
 /* -------------------------------------------------------------------------- */
 
-err_t IoT_device_config_pub();
+err_t IoT_device_config_pub(mqtt_client_t *client, void *arg);
 err_t IoT_device_update_pub();
 err_t IoT_device_update_sub();
 

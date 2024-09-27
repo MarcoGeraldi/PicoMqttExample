@@ -52,7 +52,6 @@ void mqtt_pub_request_cb(void *arg, err_t result){
 
     //example_publish(client, arg);
     //mqtt_disconnect(client);
-    IoT_device_config_pub();
     mqtt_sub_unsub(client, "start", 0, mqtt_request_cb, arg, 1);
     mqtt_sub_unsub(client, "stop", 0,  mqtt_request_cb, arg, 1);
         
