@@ -7,16 +7,13 @@
 
 #include "mqttClient.h"
 #include "utils/parson/parson.h"
+#include "IoT_device_config.h"
 #include <string.h>
 
 /* -------------------------------------------------------------------------- */
 /*                                   Macros                                   */
 /* -------------------------------------------------------------------------- */
-#define DEVICE_IDENTIFIER "deviceIdentifier"
-#define DEVICE_MANUFACTURER "deviceManufacturer"
-#define DEVICE_MODEL "deviceModel"
-#define DEVICE_NAME "deviceName"
-#define DEVICE_SW_VERS "1.2.3"
+
 
 /* -------------------------------------------------------------------------- */
 /*                                  Variables                                 */
@@ -38,10 +35,12 @@
 /*                                  Functions                                 */
 /* -------------------------------------------------------------------------- */
 
-err_t IoT_device_config_pub(mqtt_client_t *client, void *arg);
+err_t IoT_device_config_pub_generic(JSON_Status (*IoT_entityDeclaration)(JSON_Object*),mqtt_client_t *client, void *arg);
 err_t IoT_device_update_pub();
 err_t IoT_device_update_sub();
-
+JSON_Status IoT_deviceDeclaration(JSON_Object *object);
+err_t IoT_device_config_pub_init(mqtt_client_t *client, void *arg);
+JSON_Status IoT_device_config_pub_grid_U1 (JSON_Object *object);
 
 
 #endif

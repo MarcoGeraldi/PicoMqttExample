@@ -40,6 +40,7 @@
     "files.associations": {
         "mqttexample.h": "c",
         "mqtt.h": "c",
-        "iot_device.h": "c"
+        "iot_device.h": "c",
+        "opt.h": "c"
     }
 }
