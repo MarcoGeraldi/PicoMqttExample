@@ -25,14 +25,22 @@ int main()
         printf("IP address %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
 
         mqtt_init();
-
+        
+        mqtt_subscribe(mqtt->mqtt_client_inst, DEVICE_OUT1_COMMAND_TOPIC, 2, mqtt_sub_request_cb, mqtt);
+        
         IoT_device_config_pub_init(mqtt->mqtt_client_inst, mqtt);
+        
     }
 
     while (true) {
         
+        /* ------------------------------ Update values ----------------------------- */
+
+
         /* ----------------------- Update Status of the Device ---------------------- */
-        IoT_device_state_update_pub(mqtt->mqtt_client_inst, mqtt);
+        IoT_device_state_update_pub(mqtt->mqtt_client_inst, mqtt); 
+
+        
 
         /* --------------------------- Toggle on-board LED -------------------------- */
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, !cyw43_arch_gpio_get(CYW43_WL_GPIO_LED_PIN));
@@ -62,7 +70,7 @@ void mqtt_init(){
     mqtt->mqtt_client_inst = mqtt_client_new();
     mqtt_set_inpub_callback(mqtt->mqtt_client_inst, mqtt_incoming_publish_cb, mqtt_incoming_data_cb, mqtt);
 
-    err_t err = mqtt_client_connect(mqtt->mqtt_client_inst, &address, MQTT_PORT, &mqtt_connection_cbb, mqtt, &mqtt->mqtt_client_info);
+    err_t err = mqtt_client_connect(mqtt->mqtt_client_inst, &address, MQTT_PORT, &mqtt_connection_cb, mqtt, &mqtt->mqtt_client_info);
     
     if (err != ERR_OK) {
         printf("connect error\n");

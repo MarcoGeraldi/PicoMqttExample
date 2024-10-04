@@ -24,6 +24,7 @@
 #define DEVICE_ID "0x131asdf7692safd8127643asdf1"
 #define DEVICE_SW_VERS "1.2.3"
 #define DEVICE_STATE_TOPIC DEVICE_MANUFACTURER "/" DEVICE_MODEL "/" DEVICE_ID
+
 /* -------------------------------------------------------------------------- */
 /*                             ENTITY DEFINITIONS                             */
 /* -------------------------------------------------------------------------- */
@@ -38,6 +39,8 @@
 #define DEVICE_GRID_U2_ENTITY_NAME "Voltage L2"
 #define DEVICE_GRID_U3_ENTITY_NAME "Voltage L3"
 #define DEVICE_GRID_U_UNIT "V"
+
+
 
 /* --------------------------------- Relais --------------------------------- */
 #define DEVICE_OUT1_COMMAND_TOPIC DEVICE_MANUFACTURER "/" DEVICE_MODEL "/" DEVICE_ID "/OUT1/SET"

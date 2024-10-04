@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /* ----------------------- Initialize all the entities ---------------------- */
 err_t IoT_device_config_pub_init(mqtt_client_t *client, void *arg){
     
@@ -71,7 +72,7 @@ err_t IoT_device_state_update_pub(mqtt_client_t *client, void *arg){
     json_object_set_number(root_object, stringSnakeCase (DEVICE_GRID_U2_ENTITY_NAME), rand()); //Voltage L2
     json_object_set_number(root_object, stringSnakeCase (DEVICE_GRID_U3_ENTITY_NAME), rand()); //Voltage L3
  
-    json_object_set_string(root_object, stringSnakeCase (DEVICE_OUT1_ENTITY_NAME), ENTITY_SWITCH_PAYLOAD_ON); //Voltage L3
+    json_object_set_string(root_object, stringSnakeCase (DEVICE_OUT1_ENTITY_NAME), IoT_entity_output1_state_value); //Voltage L3
  
     /* ---------------------- Convert JSON Object to string --------------------- */
     serialized_string = json_serialize_to_string_pretty(root_value);
@@ -80,6 +81,16 @@ err_t IoT_device_state_update_pub(mqtt_client_t *client, void *arg){
     mqtt_publish(client, DEVICE_STATE_TOPIC, serialized_string, strlen(serialized_string), 2, 0, mqtt_pub_request_cb, arg);
     
     return err;
+}
+
+void IoT_device_cb(MQTT_CLIENT_DATA_T* mqtt_client){
+    printf("Topic: %s \n data: %s \n\r", mqtt_client->topic, mqtt_client->data);
+
+    /* for this example, when the command "ON" is received, set the state to "ON" and vicecersa */
+    if( 0 == strcmp(mqtt_client->topic, DEVICE_OUT1_COMMAND_TOPIC)) {
+        if (0 == strcmp(mqtt_client->data, ENTITY_SWITCH_PAYLOAD_ON)) snprintf(IoT_entity_output1_state_value, sizeof(IoT_entity_output1_state_value), ENTITY_SWITCH_PAYLOAD_ON);
+        if (0 == strcmp(mqtt_client->data, ENTITY_SWITCH_PAYLOAD_OFF)) snprintf(IoT_entity_output1_state_value, sizeof(IoT_entity_output1_state_value), ENTITY_SWITCH_PAYLOAD_OFF);
+    }
 }
 
 /* ------------------------ Definition of the device ------------------------ */
@@ -127,8 +138,6 @@ err_t IoT_device_config_pub_generic(IoT_entityDeclaration_t IoT_entityDeclaratio
     /* -------------------------- Calculate State Topic ------------------------- */
     snprintf(publishTopic, sizeof(publishTopic), "homeassistant/%s/%s/%s/config",params->entityType,DEVICE_ID,stringSnakeCase(params->entityName));
     
-
-    printf("%s\n%s\n\n", publishTopic,serialized_string );
     /* ---------------------- Publish Entity Configuration ---------------------- */
     mqtt_publish(client, publishTopic, serialized_string, strlen(serialized_string), 2, 0, mqtt_pub_request_cb, arg);
 
@@ -192,7 +201,7 @@ JSON_Status IoT_entity_switch_definition(JSON_Object *object, EntityParams *para
     if (JSON_Status != JSONFailure)
         JSON_Status = json_object_set_string(object, "payload_on",           ENTITY_SWITCH_PAYLOAD_ON );
 
-
+    
     return JSON_Status;
 }
 
