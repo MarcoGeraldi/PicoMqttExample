@@ -26,14 +26,14 @@ int main()
 
         mqtt_init();
 
-        
+        IoT_device_config_pub_init(mqtt->mqtt_client_inst, mqtt);
     }
 
     while (true) {
         
         /* ----------------------- Update Status of the Device ---------------------- */
-        IoT_device_config_pub_init(mqtt->mqtt_client_inst, mqtt);
-        //mqtt_example_publish(mqtt->mqtt_client_inst, mqtt);
+        IoT_device_state_update_pub(mqtt->mqtt_client_inst, mqtt);
+
         /* --------------------------- Toggle on-board LED -------------------------- */
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, !cyw43_arch_gpio_get(CYW43_WL_GPIO_LED_PIN));
         sleep_ms(1000);
@@ -69,20 +69,4 @@ void mqtt_init(){
     }
 
 } 
-
-
-err_t mqtt_example_publish(mqtt_client_t *client, void *arg)
-{
-  const char *pub_payload= "Picow MQTT";
-  err_t err;
-  u8_t qos = 2; /* 0 1 or 2, see MQTT specification */
-  u8_t retain = 0; /* No don't retain such crappy payload... */
-  cyw43_arch_lwip_begin();
-  err = mqtt_publish(client, "pub_topic/suv", pub_payload, strlen(pub_payload), qos, retain, mqtt_pub_request_cb, arg);
-  cyw43_arch_lwip_end();
-  if(err != ERR_OK) {
-    printf("Publish err: %d\n", err);
-  }
-  return err;
-}
 
