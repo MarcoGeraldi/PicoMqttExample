@@ -39,3 +39,16 @@ In your main function just call the "IoT_device_config_pub_init(mqtt->mqtt_clien
 
 The configuration of the MQTT broker are defined in the "mqttExample.h" file
 
+When subscribed to a topic, the callback function "mqtt_incoming_data_cb" is called. Here, all the device commands handling done inside the function "IoT_device_cb"
+
+![image](https://github.com/user-attachments/assets/7bb8bbd2-d4fd-498f-82df-902f39b8bc85)
+
+![image](https://github.com/user-attachments/assets/6910f4ce-8a72-4ee3-86a6-bae63f4386c2)
+
+In this example, the callback will listen to the command topic of the Output 1 entity, and will change its status according to the command
+
+![image](https://github.com/user-attachments/assets/66dfb4ba-60cb-48b6-bd3a-2ae8eed6ddc9)
+
+The device output in home assistant will be the following 
+
+![image](https://github.com/user-attachments/assets/4f19e7d9-2729-4773-8720-5d402c848c2a)
